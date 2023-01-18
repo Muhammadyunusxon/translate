@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:translate/pages/CustomPage.dart';
+import 'package:translate/pages/FavouritesPage.dart';
+import 'package:translate/pages/HomePage.dart';
+import 'package:translate/pages/OnBoarding/SplashScreen.dart';
+
+import 'Style/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,9 +13,14 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.light,
+      theme: ThemeStyle.lightTheme!,
+      darkTheme:ThemeStyle.darkTheme!,
+      home:  SplashScreen(),
+    );
   }
 }
