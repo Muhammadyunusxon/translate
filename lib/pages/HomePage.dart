@@ -151,21 +151,18 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       TextFormField(
-                        onChanged: (s) {
-                          _delayed.run(() async {
+                        onChanged: (s) async {
                             sourceLanguage =
                                 codes[languages.indexOf(source)] ?? 'en';
                             targetLanguage =
                                 codes[languages.indexOf(target)] ?? 'uz';
-                            getInfo(s);
+                           await getInfo(s);
                             LocalStore.setHistory(TranslateModel(
                                 sourceLanguage: sourceLanguage,
                                 targetLanguage: targetLanguage,
                                 text: _sourceController.text,
                                 response: _targetController.text));
                             setState(() {});
-                          });
-
                         },
                         controller: _sourceController,
                         maxLines: 4,
@@ -175,7 +172,9 @@ class _HomePageState extends State<HomePage> {
                           filled: true,
                           fillColor: Theme.of(context).hintColor,
                           hintText: "Type something",
-                          hintStyle: Theme.of(context).textTheme.headline3,
+                          hintStyle: Theme.of(context).textTheme.headline3!.copyWith(
+                            color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5)
+                          ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16),
                               borderSide: BorderSide.none),

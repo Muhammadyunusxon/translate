@@ -9,7 +9,7 @@ abstract class ThemeStyle {
       hintColor: const Color(0xffFCFCFC),
       primaryColorDark: const Color(0xff151515),
       cardColor: Color(0xffB5B5B5),
-
+secondaryHeaderColor: Style.textLightColor,
       textTheme: TextTheme(
         headline1: Style.textStyleBold(textColor: Style.textLightColor),
         headline2: Style.textStyleSemiBold(textColor: Style.textLightColor),
