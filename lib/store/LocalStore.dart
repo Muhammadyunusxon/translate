@@ -62,32 +62,32 @@ abstract class LocalStore{
 
   static Future<List<TranslateModel>> getHistory() async {
     SharedPreferences store = await SharedPreferences.getInstance();
-    List<String> list = store.getStringList("favourites") ?? [];
-    List<TranslateModel> lostOfFavourites = [];
+    List<String> list = store.getStringList("history") ?? [];
+    List<TranslateModel> lostOfHistory = [];
     for (var element in list) {
-      lostOfFavourites.add(TranslateModel.fromJson(jsonDecode(element)));
+      lostOfHistory.add(TranslateModel.fromJson(jsonDecode(element)));
     }
-    return lostOfFavourites;
+    return lostOfHistory;
   }
 
   static setHistory(TranslateModel model) async {
     SharedPreferences store = await SharedPreferences.getInstance();
-    List<String> list = store.getStringList("favourites") ?? [];
+    List<String> list = store.getStringList("history") ?? [];
     String todoJson = jsonEncode(model.toJson());
     list.add(todoJson);
-    store.setStringList("favourites", list);
+    store.setStringList("history", list);
   }
 
   static removeHistory(int index) async {
     SharedPreferences store = await SharedPreferences.getInstance();
-    List<String> list  = store.getStringList("favourites") ?? [];
+    List<String> list  = store.getStringList("history") ?? [];
     list.removeAt(index);
-    store.setStringList("favourites", list);
+    store.setStringList("history", list);
   }
 
   static Future<bool> removeAllHistory() async {
     SharedPreferences store = await SharedPreferences.getInstance();
-    return store.remove("favourites");
+    return store.remove("history");
   }
 
 

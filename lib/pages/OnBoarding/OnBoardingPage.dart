@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:translate/pages/FavouritesPage.dart';
-
+import 'package:translate/pages/GeneralPage.dart';
 import '../../Style/style.dart';
 
+
+// ignore: must_be_immutable
 class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({Key? key}) : super(key: key);
+  bool isChangeTheme;
+
+  OnBoardingPage({Key? key, this.isChangeTheme = false}) : super(key: key);
 
   @override
   State<OnBoardingPage> createState() => _OnBoardingPageState();
@@ -15,18 +18,32 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   void initState() {
-    if(index==0){
+    goNavigator();
+    super.initState();
+  }
+
+  goNavigator() {
+    if (index == 0) {
       Future.delayed(const Duration(seconds: 3), () {
         index = 1;
         setState(() {});
-        Future.delayed(const Duration(seconds: 3), () {
-          index = 2;
-          setState(() {});
-
-        });
+        goNavigator();
+      });
+    } else if (index == 1) {
+      Future.delayed(const Duration(seconds: 3), () {
+        index = 2;
+        setState(() {});
+        goNavigator();
+      });
+    } else if (index == 2) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) =>
+                    GeneralPage(isChangeTheme: widget.isChangeTheme)),
+            (route) => false);
       });
     }
-    super.initState();
   }
 
   @override
@@ -35,15 +52,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         body: Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/Light.png"), fit: BoxFit.cover)),
+              image: AssetImage(
+                  "assets/images/${widget.isChangeTheme ? 'Dark' : 'Light'}.png"),
+              fit: BoxFit.cover)),
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(
                 top: 150, bottom: 150, left: 70, right: 70),
-            child: Image.asset("assets/images/logo.png"),
+            child: Image.asset(
+                "assets/images/logo${widget.isChangeTheme ? "Dark" : ""}.png"),
           ),
           SizedBox(
             height: 385,
@@ -55,7 +75,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     height: 365,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
+                      color: Theme.of(context).hintColor,
                     ),
                     child: Column(
                       children: [
@@ -96,12 +116,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 gradient: Style.primaryGradient),
                             child: TextButton(
                               onPressed: () {
-                                index<3? index+=1 : index;
-                                if(index==3){
-                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>MyHomePages()), (route) => false);
+                                index < 3 ? index += 1 : index;
+                                if (index == 3) {
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) => GeneralPage(
+                                              isChangeTheme:
+                                                  widget.isChangeTheme)),
+                                      (route) => false);
                                 }
                                 setState(() {});
-
                               },
                               child: const Text(
                                 "Continue",
