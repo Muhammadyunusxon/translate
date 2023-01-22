@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 class TranslateModel {
   String? sourceLanguage;
   String? targetLanguage;
   String? text;
   String? response;
 
-// ignore: non_constant_identifier_names
   TranslateModel(
       {required this.sourceLanguage,
       required this.targetLanguage,

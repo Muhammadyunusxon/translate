@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:translate/Controller/AppController.dart';
 import 'package:translate/pages/GeneralPage.dart';
 import '../../Style/style.dart';
 
-
 // ignore: must_be_immutable
 class OnBoardingPage extends StatefulWidget {
-  bool isChangeTheme;
-
-  OnBoardingPage({Key? key, this.isChangeTheme = false}) : super(key: key);
+  const OnBoardingPage({Key? key}) : super(key: key);
 
   @override
   State<OnBoardingPage> createState() => _OnBoardingPageState();
@@ -38,9 +37,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     } else if (index == 2) {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) =>
-                    GeneralPage(isChangeTheme: widget.isChangeTheme)),
+            MaterialPageRoute(builder: (context) => const GeneralPage()),
             (route) => false);
       });
     }
@@ -55,7 +52,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                  "assets/images/${widget.isChangeTheme ? 'Dark' : 'Light'}.png"),
+                  "assets/images/${context.watch<AppController>().isChangeTheme ? 'Dark' : 'Light'}.png"),
               fit: BoxFit.cover)),
       child: Column(
         children: [
@@ -63,7 +60,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             padding: const EdgeInsets.only(
                 top: 150, bottom: 150, left: 70, right: 70),
             child: Image.asset(
-                "assets/images/logo${widget.isChangeTheme ? "Dark" : ""}.png"),
+                "assets/images/logo${context.watch<AppController>().isChangeTheme ? "Dark" : ""}.png"),
           ),
           SizedBox(
             height: 385,
@@ -120,9 +117,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 if (index == 3) {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
-                                          builder: (context) => GeneralPage(
-                                              isChangeTheme:
-                                                  widget.isChangeTheme)),
+                                          builder: (context) => GeneralPage()),
                                       (route) => false);
                                 }
                                 setState(() {});

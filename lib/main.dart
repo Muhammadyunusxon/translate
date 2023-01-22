@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
-import 'package:translate/pages/GeneralPage.dart';
+import 'package:provider/provider.dart';
 import 'package:translate/pages/OnBoarding/SplashScreen.dart';
 import 'package:translate/store/LocalStore.dart';
-
+import 'Controller/AppController.dart';
 import 'Style/theme.dart';
 
 void main() {
@@ -45,17 +46,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? const MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Center(child: CircularProgressIndicator()))
-        : MaterialApp(
-            debugShowCheckedModeBanner: false,
-            themeMode: isChangeTheme ? ThemeMode.dark : ThemeMode.light,
-            theme: ThemeStyle.lightTheme!,
-            darkTheme: ThemeStyle.darkTheme!,
-            title: 'Translate',
-            home: SplashScreen(isActive: true,isChangeTheme: isChangeTheme,),
-          );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=>AppController()),
+      ],
+      child: isLoading
+          ? const MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Center(child: CircularProgressIndicator()))
+          : MaterialApp(
+              debugShowCheckedModeBanner: false,
+              themeMode: isChangeTheme ? ThemeMode.dark : ThemeMode.light,
+              theme: ThemeStyle.lightTheme!,
+              darkTheme: ThemeStyle.darkTheme!,
+              title: 'Translate',
+              home: SplashScreen(isActive: true,isChangeTheme: isChangeTheme,),
+            ),
+    );
   }
 }

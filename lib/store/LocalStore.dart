@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:translate/model/TranslateModel.dart';
 
-abstract class LocalStore{
+import '../model/LanguagesModel.dart';
+
+abstract class LocalStore {
   LocalStore._();
 
 //------------------ - Theme - ---------------//
@@ -16,7 +18,6 @@ abstract class LocalStore{
     SharedPreferences store = await SharedPreferences.getInstance();
     return store.getBool("theme") ?? true;
   }
-
 
   //------------------ - Favourites - ---------------//
   static Future<List<TranslateModel>> getFavourites() async {
@@ -39,7 +40,7 @@ abstract class LocalStore{
 
   static removeFavourites(int index) async {
     SharedPreferences store = await SharedPreferences.getInstance();
-    List<String> list  = store.getStringList("favourites") ?? [];
+    List<String> list = store.getStringList("favourites") ?? [];
     list.removeAt(index);
     store.setStringList("favourites", list);
   }
@@ -51,12 +52,10 @@ abstract class LocalStore{
 
   //------------------ - Clear AllData - ---------------//
 
-
   static Future<bool> clearAllData() async {
     SharedPreferences store = await SharedPreferences.getInstance();
     return store.clear();
   }
-
 
 //------------------ - History - ---------------//
 
@@ -80,7 +79,7 @@ abstract class LocalStore{
 
   static removeHistory(int index) async {
     SharedPreferences store = await SharedPreferences.getInstance();
-    List<String> list  = store.getStringList("history") ?? [];
+    List<String> list = store.getStringList("history") ?? [];
     list.removeAt(index);
     store.setStringList("history", list);
   }
@@ -91,4 +90,16 @@ abstract class LocalStore{
   }
 
 
+  //------------------ - Languages - ---------------//
+
+  static Future<LanguagesModel?> getLanguages() async {
+    SharedPreferences store = await SharedPreferences.getInstance();
+    String? model = store.getString("languages");
+    return model !=null? LanguagesModel.fromJson(jsonDecode(model)): null;
+  }
+
+  static setLanguages(LanguagesModel model) async {
+    SharedPreferences store = await SharedPreferences.getInstance();
+    store.setString("languages", languagesModelToJson(model));
+  }
 }

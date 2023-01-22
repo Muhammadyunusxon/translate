@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:translate/pages/OnBoarding/OnBoardingPage.dart';
+
+import '../../Controller/AppController.dart';
 
 // ignore: must_be_immutable
 class SplashScreen extends StatefulWidget {
@@ -24,8 +27,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   getNewPage() {
     Future.delayed(const Duration(seconds: 3), () {
+      context.read<AppController>().setTheme(widget.isChangeTheme);
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) =>  OnBoardingPage(isChangeTheme: widget.isChangeTheme)),
+          MaterialPageRoute(builder: (context) =>  OnBoardingPage()),
           (route) => false);
     });
   }
