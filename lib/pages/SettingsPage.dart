@@ -17,6 +17,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Background(
+        isBack: true,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

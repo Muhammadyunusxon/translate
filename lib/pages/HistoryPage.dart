@@ -134,15 +134,19 @@ class _HistoryPageState extends State<HistoryPage> {
                                         right: 16, bottom: 2),
                                     child: IconButton(
                                       onPressed: () {
-                                        isFavourite
-                                            ? context
-                                                .read<AppController>()
-                                                .removeFavourites(index)
-                                            : context
-                                                .read<AppController>()
-                                                .addFavourites(context
-                                                    .read<AppController>()
-                                                    .listOfHistory[index]);
+                                        if (isFavourite) {
+                                          context
+                                              .read<AppController>()
+                                              .removeFavourites(index);
+                                          isFavourite = !isFavourite;
+                                        } else {
+                                          context
+                                              .read<AppController>()
+                                              .addFavourites(context
+                                                  .read<AppController>()
+                                                  .listOfHistory[index]);
+                                          isFavourite = !isFavourite;
+                                        }
                                       },
                                       icon: isFavourite
                                           ? const Icon(
