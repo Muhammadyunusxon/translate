@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:provider/provider.dart';
 import '../Controller/AppController.dart';
+import '../Style/style.dart';
 import '../components/Backgraund.dart';
 import '../model/TranslateModel.dart';
 import '../store/LocalStore.dart';
@@ -29,12 +30,12 @@ class _FavouritePageState extends State<FavouritePage> {
     setState(() {});
   }
 
-  @override
-  void didChangeDependencies() {
-    getFav();
-    super.didChangeDependencies();
-  }
 
+  @override
+  void initState() {
+    getFav();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -67,21 +68,18 @@ class _FavouritePageState extends State<FavouritePage> {
             ),
           ),
           isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: CircularProgressIndicator(
+                color: Theme.of(context).hintColor,
+              ))
               : SizedBox(
                   height: 575,
                   child: ListView.builder(
-                      itemCount: context
-                          .watch<AppController>()
-                          .listOfFavourites
-                          .length,
+                      itemCount: context.watch<AppController>().listOfFavourites.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(
-                            top: 15,
-                            left: 10,
-                            right: 20,
-                          ),
+                              top: 15, left: 10, right: 20),
                           child: Slidable(
                             key: UniqueKey(),
                             endActionPane: ActionPane(
@@ -94,9 +92,7 @@ class _FavouritePageState extends State<FavouritePage> {
                               children: [
                                 SlidableAction(
                                   onPressed: (s) {
-                                    context
-                                        .read<AppController>()
-                                        .removeFavourites(index);
+                                    context.read<AppController>().removeFavourites(index);
                                   },
                                   backgroundColor: const Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
@@ -117,15 +113,22 @@ class _FavouritePageState extends State<FavouritePage> {
                               ),
                               child: Row(
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 15, right: 20, bottom: 8),
-                                    child: Icon(
-                                      Icons.star_border,
-                                      color: Color(0xffB5B5B5),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 16, bottom: 2),
+                                    child: IconButton(
+                                      onPressed: (){
+                                        context.read<AppController>().removeFavourites(index);
+                                      },
+                                      icon: const Icon(
+                                              Icons.star,
+                                              color: Style.primaryColor,
+                                            ),
                                     ),
                                   ),
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [

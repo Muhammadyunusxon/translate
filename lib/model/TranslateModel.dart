@@ -18,7 +18,7 @@ class TranslateModel {
     );
   }
 
-  Map<String, String?> toJson() => {
+  Map<String, dynamic> toJson() => {
         'source_language': sourceLanguage,
         'target_language': targetLanguage,
         'text': text,

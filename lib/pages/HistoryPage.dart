@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:translate/components/Backgraund.dart';
 
 import '../Controller/AppController.dart';
+import '../Style/style.dart';
 import '../model/TranslateModel.dart';
 import '../store/LocalStore.dart';
 
@@ -35,11 +36,11 @@ class _HistoryPageState extends State<HistoryPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return  Background(
+    return Background(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -68,109 +69,139 @@ class _HistoryPageState extends State<HistoryPage> {
             ),
           ),
           isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: Theme.of(context).hintColor,
+                ))
               : SizedBox(
-            height: 575,
-            child: ListView.builder(
-                itemCount: context
-                    .watch<AppController>()
-                    .listOfHistory
-                    .length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      top: 15,
-                      left: 10,
-                      right: 20,
-                    ),
-                    child: Slidable(
-                      key: UniqueKey(),
-                      endActionPane: ActionPane(
-                        motion: const ScrollMotion(),
-                        dismissible: DismissiblePane(onDismissed: () {
-                          context
-                              .read<AppController>()
-                              .removeHistory(index);
-                        }),
-                        children: [
-                          SlidableAction(
-                            onPressed: (s) {
+                  height: 575,
+                  child: ListView.builder(
+                      itemCount:
+                          context.watch<AppController>().listOfHistory.length,
+                      itemBuilder: (context, index) {
+                        bool isFavourite = false;
+                        context
+                            .read<AppController>()
+                            .listOfFavourites
+                            .forEach((element) {
+                          if (element ==
                               context
                                   .read<AppController>()
-                                  .removeHistory(index);
-                            },
-                            backgroundColor: const Color(0xFFFE4A49),
-                            foregroundColor: Colors.white,
-                            icon: Icons.delete,
-                            label: 'Delete',
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ],
-                      ),
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 5, right: 15),
-                        height: 70,
-                        width: 355,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).hintColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(
-                                  left: 15, right: 20, bottom: 8),
-                              child: Icon(
-                                Icons.star_border,
-                                color: Color(0xffB5B5B5),
-                              ),
-                            ),
-                            Column(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
+                                  .listOfHistory[index]) {
+                            isFavourite = true;
+                          }
+                        });
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              top: 15, left: 10, right: 20),
+                          child: Slidable(
+                            key: UniqueKey(),
+                            endActionPane: ActionPane(
+                              motion: const ScrollMotion(),
+                              dismissible: DismissiblePane(onDismissed: () {
+                                context
+                                    .read<AppController>()
+                                    .removeHistory(index);
+                              }),
                               children: [
-                                Text(
-                                  context
-                                      .watch<AppController>()
-                                      .listOfHistory[index]
-                                      .text ??
-                                      '',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline3!
-                                      .copyWith(fontSize: 14),
-                                ),
-                                Text(
-                                  context
-                                      .watch<AppController>()
-                                      .listOfHistory[index]
-                                      .response ??
-                                      '',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline4!
-                                      .copyWith(fontSize: 14),
+                                SlidableAction(
+                                  onPressed: (s) {
+                                    context
+                                        .read<AppController>()
+                                        .removeHistory(index);
+                                  },
+                                  backgroundColor: const Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Delete',
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                               ],
                             ),
-                            const Spacer(),
-                            const Padding(
-                              padding: EdgeInsets.only(
-                                right: 15,
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 5, right: 15),
+                              height: 70,
+                              width: 355,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).hintColor,
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: Icon(
-                                Icons.description_outlined,
-                                color: Colors.grey,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 16, bottom: 2),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        isFavourite
+                                            ? context
+                                                .read<AppController>()
+                                                .removeFavourites(index)
+                                            : context
+                                                .read<AppController>()
+                                                .addFavourites(context
+                                                    .read<AppController>()
+                                                    .listOfHistory[index]);
+                                      },
+                                      icon: isFavourite
+                                          ? const Icon(
+                                              Icons.star,
+                                              color: Style.primaryColor,
+                                            )
+                                          : const Icon(
+                                              Icons.star_border,
+                                              color: Color(0xffB5B5B5),
+                                            ),
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        context
+                                                .watch<AppController>()
+                                                .listOfHistory[index]
+                                                .text ??
+                                            '',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3!
+                                            .copyWith(fontSize: 14),
+                                      ),
+                                      Text(
+                                        context
+                                                .watch<AppController>()
+                                                .listOfHistory[index]
+                                                .response ??
+                                            '',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4!
+                                            .copyWith(fontSize: 14),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  const Padding(
+                                    padding: EdgeInsets.only(
+                                      right: 15,
+                                    ),
+                                    child: Icon(
+                                      Icons.description_outlined,
+                                      color: Colors.grey,
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-          ),
+                            ),
+                          ),
+                        );
+                      }),
+                ),
         ],
       ),
     );

@@ -7,11 +7,10 @@ import 'package:translate/components/OnFocusTap.dart';
 import 'package:translate/model/LanguagesModel.dart';
 import 'package:translate/repository/GetInfo.dart';
 import 'package:translate/store/LocalStore.dart';
-import '../components/Delayed.dart';
 import '../model/TranslateModel.dart';
 
 class HomePage extends StatefulWidget {
-   const HomePage({Key? key,}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -21,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
   final TextEditingController _sourceController = TextEditingController();
   final TextEditingController _targetController = TextEditingController();
-  final _delayed = Delayed(milliseconds: 700);
+
   @override
   void initState() {
     getLang();
@@ -33,10 +32,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
     LanguagesModel? data = await LocalStore.getLanguages();
     LanguagesModel? model;
-    if(data!=null){
-      model=data;
-    }else{
-      model= await GetInfo.getLanguages();;
+    if (data != null) {
+      model = data;
+    } else {
+      model = await GetInfo.getLanguages();
       LocalStore.setLanguages(model!);
     }
     model.data?.languages?.forEach((element) {
@@ -51,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   List<String?> codes = [];
 
   getInfo(String text) async {
-    _targetController.text='Tarjima qilinmoqda';
+    _targetController.text = 'Translating...';
     _targetController.text = await GetInfo.sendTranslate(TranslateModel(
         sourceLanguage: sourceLanguage,
         targetLanguage: targetLanguage,
@@ -77,13 +76,13 @@ class _HomePageState extends State<HomePage> {
     return Background(
       child: isLoading
           ? Expanded(
-            child: Center(
-                child: CircularProgressIndicator(
+              child: Center(
+                  child: CircularProgressIndicator(
                 color: Theme.of(context).hintColor,
               )),
-          )
+            )
           : OnUnFocusTap(
-            child: Column(
+              child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -122,7 +121,9 @@ class _HomePageState extends State<HomePage> {
                               width: 36,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Theme.of(context).hintColor.withOpacity(0.3),
+                                color: Theme.of(context)
+                                    .hintColor
+                                    .withOpacity(0.3),
                               ),
                               child: Icon(
                                 Icons.change_circle_outlined,
@@ -163,29 +164,38 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         TextFormField(
+
+                          onChanged: (s){
+                            _targetController.text='';
+                          },
                           onEditingComplete: () async {
-                              sourceLanguage =
-                                  codes[languages.indexOf(source)] ?? 'en';
-                              targetLanguage =
-                                  codes[languages.indexOf(target)] ?? 'uz';
-                             await getInfo(_sourceController.text);
-                             // ignore: use_build_context_synchronously
-                             context.read<AppController>().addHistory(TranslateModel(
-                                 sourceLanguage: sourceLanguage,
-                                 targetLanguage: targetLanguage,
-                                 text: _sourceController.text, response: _targetController.text));
-                              setState(() {});
+                            sourceLanguage =
+                                codes[languages.indexOf(source)] ?? 'en';
+                            targetLanguage =
+                                codes[languages.indexOf(target)] ?? 'uz';
+                            await getInfo(_sourceController.text);
+                            // ignore: use_build_context_synchronously
+                            context.read<AppController>().addHistory(
+                                TranslateModel(
+                                    sourceLanguage: sourceLanguage,
+                                    targetLanguage: targetLanguage,
+                                    text: _sourceController.text,
+                                    response: _targetController.text));
+                            setState(() {});
                           },
                           controller: _sourceController,
-
                           style: Theme.of(context).textTheme.headline3,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).hintColor,
                             hintText: "Type something",
-                            hintStyle: Theme.of(context).textTheme.headline3!.copyWith(
-                              color: Theme.of(context).secondaryHeaderColor.withOpacity(0.5)
-                            ),
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .headline3!
+                                .copyWith(
+                                    color: Theme.of(context)
+                                        .secondaryHeaderColor
+                                        .withOpacity(0.5)),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide.none),
@@ -198,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                                     color: Theme.of(context).cardColor,
                                   ),
                                   onPressed: () {
-                                    LocalStore.setFavourites(TranslateModel(
+                                    context.read<AppController>().addFavourites(TranslateModel(
                                         sourceLanguage: sourceLanguage,
                                         targetLanguage: targetLanguage,
                                         text: _sourceController.text,
@@ -212,8 +222,8 @@ class _HomePageState extends State<HomePage> {
                                     color: Theme.of(context).cardColor,
                                   ),
                                   onPressed: () async {
-                                    await Clipboard.setData(
-                                         ClipboardData(text: _sourceController.text));
+                                    await Clipboard.setData(ClipboardData(
+                                        text: _sourceController.text));
                                   },
                                 ),
                               ],
@@ -226,7 +236,6 @@ class _HomePageState extends State<HomePage> {
                         TextFormField(
                           readOnly: true,
                           controller: _targetController,
-
                           maxLines: 5,
                           minLines: 5,
                           style: Theme.of(context).textTheme.headline3,
@@ -245,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                                     color: Theme.of(context).cardColor,
                                   ),
                                   onPressed: () {
-                                    LocalStore.setFavourites(TranslateModel(
+                                    context.read<AppController>().addFavourites(TranslateModel(
                                         sourceLanguage: sourceLanguage,
                                         targetLanguage: targetLanguage,
                                         text: _sourceController.text,
@@ -272,7 +281,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-          ),
+            ),
     );
   }
 }

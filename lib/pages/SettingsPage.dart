@@ -62,7 +62,7 @@ class _SettingPageState extends State<SettingPage> {
                   CustomButton(
                     text: 'Clear All Data',
                     onPressed: () {
-                      context.read<AppController>().clearAllData();
+                      context.read<AppController>().clearAllData;
                     },
                   ),
                 ],

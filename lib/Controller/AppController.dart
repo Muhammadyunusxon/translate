@@ -66,8 +66,8 @@ class AppController extends ChangeNotifier{
   }
 //-------------- All ------------//
   clearAllData(){
-    removeAllHistory();
-    removeAllFavourites();
+    listOfHistory.clear();
+    listOfFavourites.clear();
     LocalStore.clearAllData();
     notifyListeners();
   }
