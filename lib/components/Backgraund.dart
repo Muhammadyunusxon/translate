@@ -12,9 +12,7 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body:  Container(
+    return Container(
         width: double.infinity,
         height:  double.infinity,
         decoration: BoxDecoration(
@@ -73,7 +71,7 @@ class Background extends StatelessWidget {
             ],
           ),
         ),
-      ),
+
     );
   }
 }

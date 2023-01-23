@@ -75,12 +75,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Background(
       child: isLoading
-          ? Expanded(
-              child: Center(
-                  child: CircularProgressIndicator(
-                color: Theme.of(context).hintColor,
-              )),
-            )
+          ? Center(
+              child: CircularProgressIndicator(
+            color: Theme.of(context).hintColor,
+          ))
           : OnUnFocusTap(
               child: Column(
                 children: [

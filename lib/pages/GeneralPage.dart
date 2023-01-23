@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
 import 'package:proste_indexed_stack/proste_indexed_stack.dart';
-import 'package:provider/provider.dart';
-import 'package:translate/Style/style.dart';
-import 'package:translate/pages/FavouritesPage.dart';
-import 'package:translate/pages/HistoryPage.dart';
-import 'package:translate/pages/HomePage.dart';
+import '../Style/style.dart';
+import '../pages/FavouritesPage.dart';
+import '../pages/HistoryPage.dart';
+import '../pages/HomePage.dart';
 
-import '../Controller/AppController.dart';
-import '../main.dart';
-import 'SettingsPage.dart';
 class GeneralPage extends StatefulWidget {
   const GeneralPage({super.key});
 
@@ -20,7 +16,6 @@ class GeneralPage extends StatefulWidget {
 
 class _GeneralPageState extends State<GeneralPage> {
   int _selectedIndex = 1;
-  bool isSetting = false;
 
   List<IndexedStackChild> listOfPage = [
      IndexedStackChild(child: const FavouritePage()),
@@ -45,7 +40,6 @@ class _GeneralPageState extends State<GeneralPage> {
         domeCircleColor: Style.primaryColor,
         onTabChange: (clickedIndex) {
           setState(() {
-            isSetting=false;
             _selectedIndex = clickedIndex;
           });
         },
