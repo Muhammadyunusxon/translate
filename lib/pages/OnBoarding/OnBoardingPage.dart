@@ -56,12 +56,14 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               fit: BoxFit.cover)),
       child: Column(
         children: [
+          const Spacer(),
           Padding(
-            padding: const EdgeInsets.only(
-                top: 150, bottom: 150, left: 70, right: 70),
+            padding:  const EdgeInsets.only(
+                 left: 70, right: 70),
             child: Image.asset(
                 "assets/images/logo${context.watch<AppController>().isChangeTheme ? "Dark" : ""}.png"),
           ),
+          const Spacer(),
           SizedBox(
             height: 385,
             child: Stack(
@@ -117,7 +119,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 if (index == 3) {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
-                                          builder: (context) => GeneralPage()),
+                                          builder: (context) => const GeneralPage()),
                                       (route) => false);
                                 }
                                 setState(() {});
@@ -145,6 +147,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               ],
             ),
           ),
+          const Spacer(),
         ],
       ),
     ));
