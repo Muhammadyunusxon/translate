@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../Controller/AppController.dart';
-import '../components/Backgraund.dart';
-import '../components/CustomDivider.dart';
-import '../components/CustomButton.dart';
+
+import '../../Controller/app_controller.dart';
+import '../components/custom_button.dart';
+import '../components/custom_divider.dart';
+import '../components/backgraund.dart';
+
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:translate/Controller/AppController.dart';
-import 'package:translate/pages/GeneralPage.dart';
+import 'package:translate/Controller/app_controller.dart';
 import '../../Style/style.dart';
+import '../main_page.dart';
 
 // ignore: must_be_immutable
 class OnBoardingPage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     } else if (index == 2) {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const GeneralPage()),
+            MaterialPageRoute(builder: (context) => const MainPage()),
             (route) => false);
       });
     }
@@ -119,7 +119,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                                 if (index == 3) {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
-                                          builder: (context) => const GeneralPage()),
+                                          builder: (context) => const MainPage()),
                                       (route) => false);
                                 }
                                 setState(() {});

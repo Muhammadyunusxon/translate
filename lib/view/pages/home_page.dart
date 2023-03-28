@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:translate/Controller/AppController.dart';
-import 'package:translate/components/Backgraund.dart';
-import 'package:translate/components/OnFocusTap.dart';
-import 'package:translate/model/LanguagesModel.dart';
-import 'package:translate/repository/GetInfo.dart';
-import 'package:translate/store/LocalStore.dart';
-import '../model/TranslateModel.dart';
+import 'package:translate/Controller/app_controller.dart';
+import 'package:translate/model/model/languages_model.dart';
+import '../../model/repository/getInfo.dart';
+import '../../model/store/local_store.dart';
+import '../../model/model/translate_model.dart';
+import '../components/backgraund.dart';
+import '../components/keyboard_dissmisser.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -77,8 +77,8 @@ class _HomePageState extends State<HomePage> {
       child: isLoading
           ? Center(
               child: CircularProgressIndicator(
-            color: Theme.of(context).hintColor,
-          ))
+              color: Theme.of(context).hintColor,
+            ))
           : OnUnFocusTap(
               child: Column(
                 children: [
@@ -162,9 +162,8 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         TextFormField(
-
-                          onChanged: (s){
-                            _targetController.text='';
+                          onChanged: (s) {
+                            _targetController.text = '';
                           },
                           onEditingComplete: () async {
                             sourceLanguage =
@@ -206,11 +205,12 @@ class _HomePageState extends State<HomePage> {
                                     color: Theme.of(context).cardColor,
                                   ),
                                   onPressed: () {
-                                    context.read<AppController>().addFavourites(TranslateModel(
-                                        sourceLanguage: sourceLanguage,
-                                        targetLanguage: targetLanguage,
-                                        text: _sourceController.text,
-                                        response: _targetController.text));
+                                    context.read<AppController>().addFavourites(
+                                        TranslateModel(
+                                            sourceLanguage: sourceLanguage,
+                                            targetLanguage: targetLanguage,
+                                            text: _sourceController.text,
+                                            response: _targetController.text));
                                   },
                                 ),
                                 IconButton(
@@ -252,11 +252,12 @@ class _HomePageState extends State<HomePage> {
                                     color: Theme.of(context).cardColor,
                                   ),
                                   onPressed: () {
-                                    context.read<AppController>().addFavourites(TranslateModel(
-                                        sourceLanguage: sourceLanguage,
-                                        targetLanguage: targetLanguage,
-                                        text: _sourceController.text,
-                                        response: _targetController.text));
+                                    context.read<AppController>().addFavourites(
+                                        TranslateModel(
+                                            sourceLanguage: sourceLanguage,
+                                            targetLanguage: targetLanguage,
+                                            text: _sourceController.text,
+                                            response: _targetController.text));
                                   },
                                 ),
                                 IconButton(

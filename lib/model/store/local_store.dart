@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:translate/model/TranslateModel.dart';
+import 'package:translate/model/model/translate_model.dart';
 
-import '../model/LanguagesModel.dart';
+import '../model/languages_model.dart';
 
 abstract class LocalStore {
   LocalStore._();

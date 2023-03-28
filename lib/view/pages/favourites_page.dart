@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:provider/provider.dart';
-import '../Controller/AppController.dart';
+import '../../Controller/app_controller.dart';
+import '../../model/store/local_store.dart';
+import '../../model/model/translate_model.dart';
 import '../Style/style.dart';
-import '../components/Backgraund.dart';
-import '../model/TranslateModel.dart';
-import '../store/LocalStore.dart';
+import '../components/backgraund.dart';
 
 class FavouritePage extends StatefulWidget {
   const FavouritePage({Key? key}) : super(key: key);
@@ -30,14 +30,16 @@ class _FavouritePageState extends State<FavouritePage> {
     setState(() {});
   }
 
-
   @override
   void initState() {
     getFav();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<AppController>();
+    final event = context.read<AppController>();
     return Background(
       child: Column(
         children: [
@@ -50,18 +52,16 @@ class _FavouritePageState extends State<FavouritePage> {
                   "Favorites",
                   style: Theme.of(context)
                       .textTheme
-                      .headline2!
+                      .displayMedium!
                       .copyWith(fontSize: 26),
                 ),
                 TextButton(
-                    onPressed: () {
-                      context.read<AppController>().removeAllFavourites();
-                    },
+                    onPressed: () => event.removeAllFavourites(),
                     child: Text(
                       "Clear All",
                       style: Theme.of(context)
                           .textTheme
-                          .headline4!
+                          .headlineMedium!
                           .copyWith(fontSize: 12),
                     )),
               ],
@@ -70,12 +70,12 @@ class _FavouritePageState extends State<FavouritePage> {
           isLoading
               ? Center(
                   child: CircularProgressIndicator(
-                color: Theme.of(context).hintColor,
-              ))
+                  color: Theme.of(context).hintColor,
+                ))
               : SizedBox(
                   height: 575,
                   child: ListView.builder(
-                      itemCount: context.watch<AppController>().listOfFavourites.length,
+                      itemCount: state.listOfFavourites.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(
@@ -84,16 +84,14 @@ class _FavouritePageState extends State<FavouritePage> {
                             key: UniqueKey(),
                             endActionPane: ActionPane(
                               motion: const ScrollMotion(),
-                              dismissible: DismissiblePane(onDismissed: () {
-                                context
-                                    .read<AppController>()
-                                    .removeFavourites(index);
-                              }),
+                              dismissible: DismissiblePane(
+                                onDismissed: () =>
+                                    event.removeFavourites(index),
+                              ),
                               children: [
                                 SlidableAction(
-                                  onPressed: (s) {
-                                    context.read<AppController>().removeFavourites(index);
-                                  },
+                                  onPressed: (s) =>
+                                      event.removeFavourites(index),
                                   backgroundColor: const Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
@@ -117,41 +115,35 @@ class _FavouritePageState extends State<FavouritePage> {
                                     padding: const EdgeInsets.only(
                                         right: 16, bottom: 2),
                                     child: IconButton(
-                                      onPressed: (){
-                                        context.read<AppController>().removeFavourites(index);
-                                      },
+                                      onPressed: () =>
+                                          event.removeFavourites(index),
                                       icon: const Icon(
-                                              Icons.star,
-                                              color: Style.primaryColor,
-                                            ),
+                                        Icons.star,
+                                        color: Style.primaryColor,
+                                      ),
                                     ),
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        context
-                                                .watch<AppController>()
-                                                .listOfFavourites[index]
-                                                .text ??
+                                        state.listOfFavourites[index].text ??
                                             '',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline3!
+                                            .displaySmall!
                                             .copyWith(fontSize: 14),
                                       ),
                                       Text(
-                                        context
-                                                .watch<AppController>()
-                                                .listOfFavourites[index]
+                                        state.listOfFavourites[index]
                                                 .response ??
                                             '',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4!
+                                            .headlineMedium!
                                             .copyWith(fontSize: 14),
                                       ),
                                     ],

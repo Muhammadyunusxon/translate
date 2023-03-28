@@ -14,9 +14,7 @@ class LanguagesModel {
         data: json["data"] == null ? null : Data.fromJson(json["data"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"data": data?.toJson()};
 }
 
 class Data {
@@ -44,13 +42,8 @@ class Language {
   String? code;
   String? name;
 
-  factory Language.fromJson(Map<String, dynamic> json) => Language(
-        code: json["code"],
-        name: json["name"],
-      );
+  factory Language.fromJson(Map<String, dynamic> json) =>
+      Language(code: json["code"], name: json["name"]);
 
-  Map<String, dynamic> toJson() => {
-        "code": code,
-        "name": name,
-      };
+  Map<String, dynamic> toJson() => {"code": code, "name": name};
 }

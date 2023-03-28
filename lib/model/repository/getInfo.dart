@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:translate/model/LanguagesModel.dart';
-import 'package:translate/model/TranslateModel.dart';
+import 'package:translate/model/model/languages_model.dart';
+import 'package:translate/model/model/translate_model.dart';
 
 class GetInfo {
   GetInfo._();

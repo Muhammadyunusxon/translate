@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:translate/model/LanguagesModel.dart';
+import 'package:translate/model/model/languages_model.dart';
 
-import '../model/TranslateModel.dart';
-import '../store/LocalStore.dart';
+import '../model/store/local_store.dart';
+import '../model/model/translate_model.dart';
 
 class AppController extends ChangeNotifier{
   List<TranslateModel> listOfFavourites=[];

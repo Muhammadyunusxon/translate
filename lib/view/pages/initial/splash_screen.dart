@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:translate/pages/OnBoarding/OnBoardingPage.dart';
-
-import '../../Controller/AppController.dart';
+import '../../../Controller/app_controller.dart';
+import 'on_boarding.dart';
 
 // ignore: must_be_immutable
 class SplashScreen extends StatefulWidget {

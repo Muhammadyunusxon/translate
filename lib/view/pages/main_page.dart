@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:molten_navigationbar_flutter/molten_navigationbar_flutter.dart';
 import 'package:proste_indexed_stack/proste_indexed_stack.dart';
 import '../Style/style.dart';
-import '../pages/FavouritesPage.dart';
-import '../pages/HistoryPage.dart';
-import '../pages/HomePage.dart';
+import 'favourites_page.dart';
+import 'history_page.dart';
+import '../pages/home_page.dart';
 
-class GeneralPage extends StatefulWidget {
-  const GeneralPage({super.key});
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _GeneralPageState createState() => _GeneralPageState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _GeneralPageState extends State<GeneralPage> {
+class _MainPageState extends State<MainPage> {
   int _selectedIndex = 1;
 
   List<IndexedStackChild> listOfPage = [

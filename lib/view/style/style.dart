@@ -8,7 +8,7 @@ abstract class Style{
 
   static const whiteColor = Color(0xffFFFFFF);
   static const blackColor = Color(0xff000000);
-  static const primaryColor = Color(0xff009867);
+  static const primaryColor = Color(0xff246BFD);
   static const shimmerColor = Color(0x3348319D);
   static const shimmerBaseColor = Color(0x80FFFFFF);
   static const shimmerHighlightColor = Color(0x33FFFFFF);

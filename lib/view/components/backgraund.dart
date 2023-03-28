@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:translate/pages/SettingsPage.dart';
 
-import '../Controller/AppController.dart';
-import '../main.dart';
+import '../../Controller/app_controller.dart';
+import '../app_widget.dart';
+import '../pages/settings_page.dart';
 
 class Background extends StatelessWidget {
   final Widget child;
@@ -14,7 +14,7 @@ class Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final state = context.watch<AppController>();
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -32,46 +32,29 @@ class Background extends StatelessWidget {
               padding: const EdgeInsets.only(top: 16),
               child: Row(
                 children: [
-                  isBack
-                      ? const Spacer(
-                          flex: 2,
-                        )
-                      : const SizedBox.shrink(),
+                  isBack ? const Spacer(flex: 2) : const SizedBox.shrink(),
                   isBack
                       ? IconButton(
                           splashRadius: 20,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: Theme.of(context).secondaryHeaderColor,
-                          ))
-                      : const SizedBox.shrink(),
-                  isBack
-                      ? const Spacer(
-                          flex: 6,
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(Icons.arrow_back,
+                              color: Theme.of(context).secondaryHeaderColor),
                         )
                       : const SizedBox.shrink(),
-                  !isBack
-                      ? const Spacer(
-                          flex: 9,
-                        )
-                      : const SizedBox.shrink(),
+                  isBack ? const Spacer(flex: 6) : const SizedBox.shrink(),
+                  !isBack ? const Spacer(flex: 9) : const SizedBox.shrink(),
                   SizedBox(
                       height: 18,
                       child: Image.asset(
-                        "assets/images/logo${context.watch<AppController>().isChangeTheme ? "Dark" : ""}.png",
+                        "assets/images/logo${state.isChangeTheme ? "Dark" : ""}.png",
                       )),
-                  const Spacer(
-                    flex: 2,
-                  ),
+                  const Spacer(flex: 2),
                   IconButton(
                     splashRadius: 28,
                     icon: SizedBox(
                       height: 22,
                       child: Image.asset(
-                          "assets/icon/Theme${context.watch<AppController>().isChangeTheme ? "Dark" : "Light"}.png"),
+                          "assets/icon/Theme${state.isChangeTheme ? "Dark" : "Light"}.png"),
                     ),
                     onPressed: () {
                       context.read<AppController>().changeTheme();

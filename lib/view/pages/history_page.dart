@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:translate/components/Backgraund.dart';
 
-import '../Controller/AppController.dart';
+import '../../Controller/app_controller.dart';
+import '../../model/store/local_store.dart';
+import '../../model/model/translate_model.dart';
 import '../Style/style.dart';
-import '../model/TranslateModel.dart';
-import '../store/LocalStore.dart';
+import '../components/backgraund.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -38,6 +38,8 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<AppController>();
+    final event = context.read<AppController>();
     return Background(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,18 +53,16 @@ class _HistoryPageState extends State<HistoryPage> {
                   "History",
                   style: Theme.of(context)
                       .textTheme
-                      .headline2!
+                      .displayMedium!
                       .copyWith(fontSize: 26),
                 ),
                 TextButton(
-                    onPressed: () {
-                      context.read<AppController>().removeAllHistory();
-                    },
+                    onPressed: () => event.removeAllHistory(),
                     child: Text(
                       "Clear All",
                       style: Theme.of(context)
                           .textTheme
-                          .headline4!
+                          .headlineMedium!
                           .copyWith(fontSize: 12),
                     )),
               ],
@@ -76,21 +76,14 @@ class _HistoryPageState extends State<HistoryPage> {
               : SizedBox(
                   height: 575,
                   child: ListView.builder(
-                      itemCount:
-                          context.watch<AppController>().listOfHistory.length,
+                      itemCount: state.listOfHistory.length,
                       itemBuilder: (context, index) {
                         bool isFavourite = false;
-                        context
-                            .read<AppController>()
-                            .listOfFavourites
-                            .forEach((element) {
-                          if (element ==
-                              context
-                                  .read<AppController>()
-                                  .listOfHistory[index]) {
+                        for (var element in event.listOfFavourites) {
+                          if (element == event.listOfHistory[index]) {
                             isFavourite = true;
                           }
-                        });
+                        }
                         return Padding(
                           padding: const EdgeInsets.only(
                               top: 15, left: 10, right: 20),
@@ -98,18 +91,12 @@ class _HistoryPageState extends State<HistoryPage> {
                             key: UniqueKey(),
                             endActionPane: ActionPane(
                               motion: const ScrollMotion(),
-                              dismissible: DismissiblePane(onDismissed: () {
-                                context
-                                    .read<AppController>()
-                                    .removeHistory(index);
-                              }),
+                              dismissible: DismissiblePane(
+                                  onDismissed: () =>
+                                      event.removeHistory(index)),
                               children: [
                                 SlidableAction(
-                                  onPressed: (s) {
-                                    context
-                                        .read<AppController>()
-                                        .removeHistory(index);
-                                  },
+                                  onPressed: (s) => event.removeHistory(index),
                                   backgroundColor: const Color(0xFFFE4A49),
                                   foregroundColor: Colors.white,
                                   icon: Icons.delete,
@@ -135,16 +122,12 @@ class _HistoryPageState extends State<HistoryPage> {
                                     child: IconButton(
                                       onPressed: () {
                                         if (isFavourite) {
-                                          context
-                                              .read<AppController>()
-                                              .removeFavourites(index);
+                                          event.removeFavourites(index);
                                           isFavourite = !isFavourite;
                                         } else {
-                                          context
+                                          event.addFavourites(context
                                               .read<AppController>()
-                                              .addFavourites(context
-                                                  .read<AppController>()
-                                                  .listOfHistory[index]);
+                                              .listOfHistory[index]);
                                           isFavourite = !isFavourite;
                                         }
                                       },
@@ -166,25 +149,18 @@ class _HistoryPageState extends State<HistoryPage> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        context
-                                                .watch<AppController>()
-                                                .listOfHistory[index]
-                                                .text ??
-                                            '',
+                                        state.listOfHistory[index].text ?? '',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline3!
+                                            .displaySmall!
                                             .copyWith(fontSize: 14),
                                       ),
                                       Text(
-                                        context
-                                                .watch<AppController>()
-                                                .listOfHistory[index]
-                                                .response ??
+                                        state.listOfHistory[index].response ??
                                             '',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline4!
+                                            .headlineMedium!
                                             .copyWith(fontSize: 14),
                                       ),
                                     ],
