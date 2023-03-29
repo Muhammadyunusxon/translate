@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:translate/model/model/languages_model.dart';
 
+import '../model/repository/get_info.dart';
 import '../model/store/local_store.dart';
 import '../model/model/translate_model.dart';
 
@@ -9,8 +10,12 @@ class AppController extends ChangeNotifier{
   List<TranslateModel> listOfHistory=[];
   LanguagesModel lang=LanguagesModel();
   bool isChangeTheme=false;
+  bool isLoading = true;
+  List<String?> languages = [];
+  List<String?> codes = [];
 
- changeTheme(){
+
+  changeTheme(){
     isChangeTheme=!isChangeTheme;
     LocalStore.setTheme(isChangeTheme);
     notifyListeners();
@@ -20,6 +25,30 @@ class AppController extends ChangeNotifier{
     isChangeTheme=theme;
     notifyListeners();
   }
+
+
+  getLang() async {
+    isLoading = true;
+    notifyListeners();
+
+    LanguagesModel? data = await LocalStore.getLanguages();
+    LanguagesModel? model;
+    if (data != null) {
+      model = data;
+    } else {
+      model = await GetInfo.getLanguages();
+      LocalStore.setLanguages(model!);
+    }
+    model.data?.languages?.forEach((element) {
+      languages.add(element.name);
+      codes.add(element.code);
+    });
+
+    isLoading = false;
+    notifyListeners();
+  }
+
+
 
   //-------------- Favourites ------------//
 

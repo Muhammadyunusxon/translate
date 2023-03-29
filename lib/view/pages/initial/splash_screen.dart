@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../../Controller/app_controller.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:translate/view/pages/main_page.dart';
+import '../../../model/store/local_store.dart';
 import 'on_boarding.dart';
 
 // ignore: must_be_immutable
 class SplashScreen extends StatefulWidget {
-  bool isActive;
-  bool isChangeTheme;
-
-  SplashScreen({Key? key, this.isActive = false, this.isChangeTheme = false})
-      : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -18,19 +15,21 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    if (widget.isActive) {
-      getNewPage();
-    }
+    checking();
     super.initState();
   }
 
-  getNewPage() {
-    Future.delayed(const Duration(seconds: 3), () {
-      context.read<AppController>().setTheme(widget.isChangeTheme);
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) =>  OnBoardingPage()),
-          (route) => false);
-    });
+  checking() async {
+    if (await LocalStore.getOnBoarding()) {
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const OnBoardingPage()));
+    } else {
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const MainPage()));
+    }
+    FlutterNativeSplash.remove();
   }
 
   @override
@@ -39,9 +38,9 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Container(
       width: double.infinity,
       height: double.infinity,
-      decoration:  BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/${widget.isChangeTheme ? "Dark" : "Light"}.png"),
+          image: AssetImage("assets/images/Light.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -49,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 75),
         child: Center(
           child: Image.asset(
-            "assets/images/logo${widget.isChangeTheme ? "Dark" : ""}.png",
+            "assets/images/logo.png",
             fit: BoxFit.cover,
           ),
         ),

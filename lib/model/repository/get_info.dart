@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:translate/model/model/languages_model.dart';
 import 'package:translate/model/model/translate_model.dart';
@@ -23,7 +24,7 @@ class GetInfo {
       );
       return jsonDecode(res.body)['data']['translatedText'];
     } catch (e) {
-      print(e);
+      debugPrint("$e");
     }
   }
 
@@ -38,7 +39,8 @@ class GetInfo {
         },);
       return languagesModelFromJson(res.body);
     } catch (e) {
-      print(e);
+      debugPrint("$e");
     }
+    return null;
   }
 }

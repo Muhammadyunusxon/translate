@@ -102,4 +102,18 @@ abstract class LocalStore {
     SharedPreferences store = await SharedPreferences.getInstance();
     store.setString("languages", languagesModelToJson(model));
   }
+
+
+
+  //------------------ - OnBoarding - ---------------//
+  static setOnBoarding() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool("OnBoarding", false);
+  }
+
+  static getOnBoarding() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getBool("OnBoarding") ?? true;
+  }
+
 }

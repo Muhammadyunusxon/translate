@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../Controller/app_controller.dart';
-import '../app_widget.dart';
 import '../pages/settings_page.dart';
 
 class Background extends StatelessWidget {
@@ -56,10 +55,7 @@ class Background extends StatelessWidget {
                       child: Image.asset(
                           "assets/icon/Theme${state.isChangeTheme ? "Dark" : "Light"}.png"),
                     ),
-                    onPressed: () {
-                      context.read<AppController>().changeTheme();
-                      MyApp.of(context)!.change();
-                    },
+                    onPressed: () => context.read<AppController>().changeTheme(),
                   ),
                   const SizedBox(width: 4),
                   IconButton(

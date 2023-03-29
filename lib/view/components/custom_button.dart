@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
         padding:const EdgeInsets.symmetric(vertical: 9),
         child: Text(
             text,
-            style: Theme.of(context).textTheme.headline5!.copyWith(fontSize: 19)),
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 19)),
       ),
     );
   }

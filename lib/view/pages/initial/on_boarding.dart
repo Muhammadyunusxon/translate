@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:translate/Controller/app_controller.dart';
+import '../../../model/store/local_store.dart';
 import '../../Style/style.dart';
 import '../main_page.dart';
 
@@ -15,33 +16,6 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   int index = 0;
 
-  @override
-  void initState() {
-    goNavigator();
-    super.initState();
-  }
-
-  goNavigator() {
-    if (index == 0) {
-      Future.delayed(const Duration(seconds: 3), () {
-        index = 1;
-        setState(() {});
-        goNavigator();
-      });
-    } else if (index == 1) {
-      Future.delayed(const Duration(seconds: 3), () {
-        index = 2;
-        setState(() {});
-        goNavigator();
-      });
-    } else if (index == 2) {
-      Future.delayed(const Duration(seconds: 3), () {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const MainPage()),
-            (route) => false);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +62,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               "Welcome",
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline5!
+                                  .headlineSmall!
                                   .copyWith(
                                     fontSize: 18,
                                   ),
@@ -101,7 +75,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           child: Text(
                               "Translate with written, voice, mutual talk or drawing in all languages!",
                               textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headline4),
+                              style: Theme.of(context).textTheme.headlineMedium),
                         ),
                         const Spacer(),
                         Padding(
@@ -117,6 +91,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                               onPressed: () {
                                 index < 3 ? index += 1 : index;
                                 if (index == 3) {
+                                  LocalStore.setOnBoarding();
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
                                           builder: (context) => const MainPage()),

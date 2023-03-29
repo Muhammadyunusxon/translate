@@ -39,9 +39,7 @@ class _MainPageState extends State<MainPage> {
         barColor: Theme.of(context).primaryColor,
         domeCircleColor: Style.primaryColor,
         onTabChange: (clickedIndex) {
-          setState(() {
-            _selectedIndex = clickedIndex;
-          });
+          setState(() => _selectedIndex = clickedIndex);
         },
         tabs: [
           MoltenTab(
